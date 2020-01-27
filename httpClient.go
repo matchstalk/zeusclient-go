@@ -10,7 +10,7 @@ import (
 const (
 	ApiPermList  = "/user/perm/list"
 	ApiPermCheck = "/user/perm/check"
-	ApiMenuList = "/user/menu"
+	ApiMenuList  = "/user/menu"
 )
 
 type ZeusHttpClient struct {
@@ -29,6 +29,7 @@ func NewZeusHttpClient(centerService, domain, token string) ZeusHttpClient {
 	}
 }
 
+//检查用户权限
 func (e ZeusHttpClient) CheckPerm(perm string) (can bool, err error) {
 	data := map[string]interface{}{
 		"domain": e.domain,
@@ -48,10 +49,11 @@ func (e ZeusHttpClient) CheckPerm(perm string) (can bool, err error) {
 	return
 }
 
+//获取用户权限
 func (e ZeusHttpClient) GetUserPerms() (perms []string, err error) {
 	var rb []byte
-	rb, err = e.send(http.MethodGet, e.centerService + ApiPermList + "?domain=" + e.domain, nil)
-	if err != nil{
+	rb, err = e.send(http.MethodGet, e.centerService+ApiPermList+"?domain="+e.domain, nil)
+	if err != nil {
 		return
 	}
 	var rsp UserPermsRsp
@@ -63,10 +65,11 @@ func (e ZeusHttpClient) GetUserPerms() (perms []string, err error) {
 	return
 }
 
+//获取用户菜单
 func (e ZeusHttpClient) GetUserMenus() (menus []Menus, err error) {
 	var rb []byte
-	rb, err = e.send(http.MethodGet, e.centerService + ApiMenuList + "?domain=" + e.domain, nil)
-	if err != nil{
+	rb, err = e.send(http.MethodGet, e.centerService+ApiMenuList+"?domain="+e.domain, nil)
+	if err != nil {
 		return
 	}
 	var rsp UserMenusRsp
